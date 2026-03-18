@@ -1,0 +1,53 @@
+:root {
+  --primary: #0038A8; /* Philippine blue */
+  --secondary: #CE1126; /* Philippine red */
+  --accent: #FCD116; /* Philippine yellow */
+  --bg: #f0f4f8;
+  --card: #ffffff;
+}
+
+* { box-sizing: border-box; font-family: 'Roboto', sans-serif; }
+
+body {
+  margin:0; background: var(--bg); min-height:100vh; display:flex; flex-direction:column;
+}
+
+header {
+  background: linear-gradient(90deg,var(--primary),var(--secondary));
+  color:#fff; padding:1rem 2rem; font-size:1.5rem; font-weight:700;
+  display:flex; justify-content:space-between; align-items:center;
+}
+
+header button {
+  background:#fff; color:var(--primary); border:none; padding:0.5rem 1rem;
+  border-radius:8px; cursor:pointer; font-weight:700; transition:0.3s;
+}
+
+header button:hover {
+  background: var(--accent); color:var(--secondary);
+}
+
+.container {
+  flex:1; padding:2rem; display:grid; grid-template-columns: repeat(auto-fit,minmax(300px,1fr)); gap:1.5rem;
+}
+
+.card {
+  background: var(--card); padding:1rem 1.5rem; border-radius:12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1); transition:0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px); box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+}
+
+button.approve { background: var(--primary); color:#fff; border:none; padding:0.5rem 1rem; border-radius:8px; cursor:pointer; margin-right:0.5rem; }
+button.reject { background: var(--secondary); color:#fff; border:none; padding:0.5rem 1rem; border-radius:8px; cursor:pointer; }
+
+button.approve:hover { opacity:0.8; }
+button.reject:hover { opacity:0.8; }
+
+input, textarea { width:100%; padding:0.7rem; margin-top:0.5rem; border-radius:8px; border:1px solid #ccc; transition:0.3s; }
+input:focus, textarea:focus { border-color: var(--secondary); outline:none; box-shadow:0 0 5px var(--accent); }
+
+button.submit { margin-top:1rem; background: linear-gradient(90deg,var(--primary),var(--secondary)); color:#fff; font-weight:700; border:none; border-radius:8px; padding:0.7rem 1rem; cursor:pointer; transition:0.3s; }
+button.submit:hover { background: linear-gradient(90deg,var(--secondary),var(--primary)); }
