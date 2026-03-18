@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Pinoy HR - Subscription</title>
+<link rel="stylesheet" href="css/dashboard.css">
+<style>
+  .qr-card {
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:2rem; border-radius:12px; background: var(--card); box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+  }
+  .qr-card img { width:200px; margin-bottom:1rem; }
+  .file-input { margin-top:1rem; }
+  button.submit { width:100%; max-width:200px; }
+</style>
+</head>
+<body>
+<header>
+  Pinoy HR Subscription 🇵🇭
+  <button id="logoutBtn">Logout</button>
+</header>
+
+<div class="container">
+  <div class="card qr-card">
+    <h2>Subscribe via GCash</h2>
+    <p>Scan the QR code below to pay</p>
+    <img src="images/gcash-qr.png" alt="GCash QR Code">
+    <input type="file" id="proofFile" class="file-input" accept="image/*">
+    <button class="submit" id="submitProof">Submit Proof</button>
+  </div>
+</div>
+
+<script type="module">
+import { auth, db } from './js/firebase.js';
+import { signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+// Logout
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+  await signOut(auth);
+  window.location.href = "login.html";
+});
+
+// Handle subscription proof upload
+document.getElementById('submitProof').addEventListener('click', async () => {
+  const fileInput = document.getElementById('proofFile');
+  if(!fileInput.files.length) {
+    alert("Please upload a proof of payment image!");
+    return;
+  }
+
+  const file = fileInput.files[0];
+
+  // For MVP, we'll just save the filename as proof
+  // For production, you should upload to Firebase Storage
+  try {
+    await updateDoc(doc(db, "subscriptions", auth.currentUser.uid), {
+      plan: "premium",
+      status: "pending",
+      proofImage: file.name
+    });
+
+    alert("✅ Proof submitted! Your subscription will be activated after verification.");
+  } catch (err) {
+    console.error(err);
+    alert("❌ Error submitting proof: " + err.message);
+  }
+});
+</script>
+</body>
+</html>

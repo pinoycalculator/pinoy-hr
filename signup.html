@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Pinoy HR - Signup</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #0038A8; /* Philippine blue */
+    --secondary: #CE1126; /* Philippine red */
+    --accent: #FCD116; /* Philippine yellow */
+    --bg: #f0f4f8;
+    --card: #ffffff;
+  }
+
+  * { box-sizing: border-box; font-family: 'Roboto', sans-serif; }
+  body { margin:0; background: var(--bg); display:flex; align-items:center; justify-content:center; height:100vh; }
+  .card {
+    background: var(--card); padding:2rem; border-radius:12px; box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    width: 350px; text-align:center; transition: transform 0.3s ease;
+  }
+  .card:hover { transform: translateY(-5px); }
+  h1 { color: var(--primary); margin-bottom:1rem; }
+  input, select { width:100%; padding:0.8rem; margin:0.5rem 0; border-radius:8px; border:1px solid #ccc; transition:0.3s; }
+  input:focus, select:focus { border-color: var(--secondary); outline:none; box-shadow:0 0 5px var(--accent); }
+  button {
+    width:100%; padding:0.8rem; margin-top:1rem; border:none; border-radius:8px;
+    background: linear-gradient(90deg,var(--primary),var(--secondary)); color:#fff; font-weight:700; cursor:pointer; transition:0.3s;
+  }
+  button:hover { background: linear-gradient(90deg,var(--secondary),var(--primary)); }
+  .login-link { margin-top:1rem; display:block; font-size:0.9rem; color: #555; text-decoration:none; }
+  .login-link:hover { color: var(--primary); }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Pinoy HR 🇵🇭</h1>
+  <input type="email" id="email" placeholder="Email">
+  <input type="password" id="password" placeholder="Password">
+  <select id="role">
+    <option value="employee">Employee</option>
+    <option value="admin">Admin/Manager</option>
+  </select>
+  <button id="signupBtn">Sign Up</button>
+  <a class="login-link" href="login.html">Already have an account? Login</a>
+</div>
+
+<script type="module">
+import { signup } from './js/auth.js';
+document.getElementById('signupBtn').addEventListener('click', () => {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const role = document.getElementById('role').value;
+    signup(email, password, role);
+});
+</script>
+</body>
+</html>

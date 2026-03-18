@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Pinoy HR - Subscription Management</title>
+<link rel="stylesheet" href="css/dashboard.css">
+<style>
+  .card img { width:150px; border-radius:8px; margin-top:0.5rem; }
+</style>
+</head>
+<body>
+<header>
+  Pinoy HR - Subscription Management 🇵🇭
+  <button id="logoutBtn">Logout</button>
+</header>
+
+<div class="container" id="subscriptionsContainer">
+  <!-- Subscription cards will appear here -->
+</div>
+
+<script type="module">
+import { auth, db } from './js/firebase.js';
+import { signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { collection, getDocs, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+// Logout
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+  await signOut(auth);
+  window.location.href = "login.html";
+});
+
+// Load all subscription requests
+async function loadSubscriptions() {
+  const container = document.getElementById('subscriptionsContainer');
+  container.innerHTML = "";
+
+  const querySnapshot = await getDocs(collection(db, "subscriptions"));
+  querySnapshot.forEach(docSnap => {
+    const sub = docSnap.data();
+    const card = document.createElement('div');
+    card.className = "card";
+    card.innerHTML = `
+      <h3>User ID: ${sub.userId}</h3>
+      <p><strong>Plan:</strong> ${sub.plan}</p>
+      <p><strong>Status:</strong> ${sub.status}</p>
+      ${sub.proofImage ? `<img src="images/${sub.proofImage}" alt="Proof of Payment">` : `<p>No proof uploaded</p>`}
+      <button class="approve">Approve</button>
+      <button class="reject">Reject</button>
+    `;
+
+    card.querySelector('.approve').addEventListener('click', async () => {
+      await updateDoc(doc(db, "subscriptions", docSnap.id), { status:"active" });
+      alert("✅ Subscription approved!");
+      loadSubscriptions();
+    });
+
+    card.querySelector('.reject').addEventListener('click', async () => {
+      await updateDoc(doc(db, "subscriptions", docSnap.id), { status:"rejected" });
+      alert("❌ Subscription rejected!");
+      loadSubscriptions();
+    });
+
+    container.appendChild(card);
+  });
+}
+
+loadSubscriptions();
+</script>
+</body>
+</html>

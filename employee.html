@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Pinoy HR - Employee Dashboard</title>
+<link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+<header>
+  Pinoy HR Employee Dashboard 🇵🇭
+  <button id="logoutBtn">Logout</button>
+</header>
+
+<div class="container">
+  <div class="card">
+    <h2>File a Leave</h2>
+    <input type="date" id="startDate">
+    <input type="date" id="endDate">
+    <textarea id="reason" placeholder="Reason for leave"></textarea>
+    <button class="submit" id="fileLeaveBtn">Submit Leave</button>
+  </div>
+
+  <div class="card" id="leaveHistory">
+    <h2>My Leave History</h2>
+    <!-- Leave requests will appear here -->
+  </div>
+</div>
+
+<script type="module">
+import { auth, db } from './js/firebase.js';
+import { signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+// Logout
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+  await signOut(auth);
+  window.location.href = "login.html";
+});
+
+// File leave
+document.getElementById('fileLeaveBtn').addEventListener('click', async () => {
+  const start = document.getElementById('startDate').value;
+  const end = document.getElementById('endDate').value;
+  const reason = document.getElementById('reason').value;
+
+  if(!start || !end || !reason) { alert("Fill all fields!"); return; }
+
+  await addDoc(collection(db, "leaves"), {
+    userId: auth.currentUser.uid,
+    start,
+    end,
+    reason,
+    status: "pending"
+  });
+
+  alert("✅ Leave submitted!");
+  loadHistory();
+});
+
+// Load leave history
+async function loadHistory() {
+  const historyDiv = document.getElementById('leaveHistory');
+  historyDiv.innerHTML = "<h2>My Leave History</h2>";
+
+  const q = query(collection(db, "leaves"), where("userId", "==", auth.currentUser.uid));
+  const snapshot = await getDocs(q);
+
+  snapshot.forEach(docSnap => {
+    const leave = docSnap.data();
+    const div = document.createElement('div');
+    div.style.borderTop = "1px solid #ccc";
+    div.style.padding = "0.5rem 0";
+    div.innerHTML = `
+      <p><strong>${leave.start} → ${leave.end}</strong></p>
+      <p>${leave.reason}</p>
+      <p>Status: ${leave.status}</p>
+    `;
+    historyDiv.appendChild(div);
+  });
+}
+
+auth.onAuthStateChanged(user => {
+  if(user) loadHistory();
+});
+</script>
+</body>
+</html>
