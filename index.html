@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Pinoy HR - Leave & Subscription Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #0038A8;  /* Philippine blue */
+  --secondary: #CE1126; /* Philippine red */
+  --accent: #FCD116;   /* Philippine yellow */
+  --bg: #f0f4f8;
+}
+
+* { box-sizing:border-box; font-family: 'Roboto', sans-serif; }
+body { margin:0; background: var(--bg); }
+
+header {
+  background: linear-gradient(90deg,var(--primary),var(--secondary));
+  color:#fff; padding:1.5rem 2rem; text-align:center; font-size:2rem; font-weight:700;
+}
+
+nav { text-align:center; margin-top:1rem; }
+nav a {
+  text-decoration:none; margin:0 1rem; font-weight:700; color:var(--primary); padding:0.5rem 1rem; border-radius:8px;
+  transition:0.3s;
+}
+nav a:hover { background: var(--accent); color:var(--secondary); }
+
+.hero {
+  display:flex; flex-direction:column; align-items:center; justify-content:center; padding:4rem 2rem; text-align:center;
+}
+
+.hero h1 { font-size:3rem; color:var(--primary); margin-bottom:1rem; }
+.hero p { font-size:1.2rem; max-width:600px; margin-bottom:2rem; color:#333; }
+
+.hero button {
+  padding:1rem 2rem; font-size:1rem; font-weight:700; border:none; border-radius:12px;
+  background: linear-gradient(90deg,var(--primary),var(--secondary)); color:#fff; cursor:pointer; transition:0.3s;
+}
+.hero button:hover { background: linear-gradient(90deg,var(--secondary),var(--primary)); }
+
+.features { display:flex; flex-wrap:wrap; justify-content:center; gap:2rem; margin:4rem 2rem; }
+.feature-card {
+  background:#fff; padding:2rem; border-radius:12px; width:250px; box-shadow: 0 6px 18px rgba(0,0,0,0.1); text-align:center;
+  transition:0.3s;
+}
+.feature-card:hover { transform: translateY(-5px); box-shadow: 0 12px 24px rgba(0,0,0,0.15); }
+.feature-card h3 { color:var(--primary); margin-bottom:1rem; }
+.feature-card p { color:#555; }
+
+footer {
+  background: var(--primary); color:#fff; text-align:center; padding:1.5rem; font-weight:500;
+}
+</style>
+</head>
+<body>
+
+<header>Pinoy HR 🇵🇭</header>
+
+<nav>
+  <a href="signup.html">Sign Up</a>
+  <a href="login.html">Login</a>
+  <a href="subscription.html">Subscribe</a>
+</nav>
+
+<section class="hero">
+  <h1>Pinoy HR — Your Employee Leave & Subscription Management</h1>
+  <p>Manage leave requests, employee subscriptions, and admin approvals all in one modern, Pinoy-themed web app!</p>
+  <button onclick="window.location.href='signup.html'">Get Started</button>
+</section>
+
+<section class="features">
+  <div class="feature-card">
+    <h3>Leave Management</h3>
+    <p>Employees can file leaves, admins can approve or reject, all in one simple dashboard.</p>
+  </div>
+  <div class="feature-card">
+    <h3>Subscription Control</h3>
+    <p>Handle premium subscriptions with GCash QR code and proof upload verification.</p>
+  </div>
+  <div class="feature-card">
+    <h3>Role-Based Dashboards</h3>
+    <p>Separate dashboards for employees and admins, making management efficient and professional.</p>
+  </div>
+</section>
+
+<footer>© 2026 Pinoy HR — Built for Filipino teams</footer>
+
+</body>
+</html>
